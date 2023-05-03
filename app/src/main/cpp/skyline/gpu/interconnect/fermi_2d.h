@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "gpu/texture/guest_texture.h"
 #include <gpu/texture/texture.h>
 #include <soc/gm20b/gmmu.h>
 #include <soc/gm20b/engines/fermi/types.h>
@@ -33,7 +34,15 @@ namespace skyline::gpu::interconnect {
         soc::gm20b::ChannelContext &channelCtx;
         gpu::interconnect::CommandExecutor &executor;
 
-        gpu::GuestTexture GetGuestTexture(const Surface &surface);
+        struct FermiTexture {
+            texture::Format format;
+            texture::Dimensions dimensions;
+            texture::TileConfig tileConfig;
+            texture::Mappings mappings;
+            u32 layerStride;
+        };
+
+        FermiTexture GetFermiTexture(const Surface &surface);
 
       public:
         Fermi2D(GPU &gpu, soc::gm20b::ChannelContext &channelCtx);
